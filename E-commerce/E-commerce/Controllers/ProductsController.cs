@@ -9,6 +9,7 @@ namespace E_commerce.Controllers
     {
         private static List<Prodotto> products = new List<Prodotto>
         {
+
         };
 
         public IActionResult Index()
