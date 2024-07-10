@@ -8,5 +8,7 @@
         public decimal Prezzo { get; set; }
         public string Categoria { get; set; }
         public DateTime? DataInserimento { get; set; }
+        public string ImmagineLink { get; set; }
+
     }
 }

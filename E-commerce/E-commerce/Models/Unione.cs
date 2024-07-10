@@ -7,7 +7,8 @@
         public int ProdottoID { get; set; }
         public int Quantita { get; set; }
         public decimal PrezzoUnitario { get; set; }
-        public DateTime? DataAggiunta { get; set; }
+        public DateTime? DataInserimento { get; set; }
+        public string ImmagineLink { get; set; }
 
     }
 }
