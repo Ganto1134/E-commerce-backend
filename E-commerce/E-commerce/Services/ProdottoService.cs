@@ -1,26 +1,24 @@
-﻿using System.Data.Common;
-using E_commerce.Models;
-using E_commerce.Services;
+﻿using E_commerce.Models;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace E_commerce.Services
 {
-    public class ProdottoService : SqlServiceBase , IProdottoService
-
-        
+    public class ProdottoService : SqlServiceBase, IProdottoService
     {
-
-        public ProdottoService(IConfiguration config): base (config) {
-            
+        public ProdottoService(IConfiguration config) : base(config)
+        {
         }
+
         public IEnumerable<Prodotto> GetProducts() //get da TUTTI i prodotti
         {
             try
             {
-                var cmd = GetCommand("SELECT * FROM Prodotti");
                 using var conn = GetConnection();
+                var cmd = GetCommand("SELECT * FROM Prodotti");
+                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
-                var reader = cmd.ExecuteReader();
+                using var reader = cmd.ExecuteReader();
                 var prodotti = new List<Prodotto>();
                 while (reader.Read())
                 {
@@ -28,9 +26,9 @@ namespace E_commerce.Services
                 }
                 return prodotti;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("GetProductS  fallito");
+                throw new Exception("GetProducts fallito", ex);
             }
         }
 
@@ -38,18 +36,19 @@ namespace E_commerce.Services
         {
             try
             {
+                using var conn = GetConnection();
                 var cmd = GetCommand("SELECT Id, Title, PublicationDate, Content FROM Articles WHERE Id = @id");
                 cmd.Parameters.Add(new SqlParameter("@id", id));
-                using var conn = GetConnection();
+                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
-                var reader = cmd.ExecuteReader();
+                using var reader = cmd.ExecuteReader();
                 if (reader.Read())
                     return Create(reader);
                 throw new Exception("Non trovato");
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception("GetProdotto fallito", ex);
             }
         }
 
@@ -64,13 +63,11 @@ namespace E_commerce.Services
             ImmagineLink = reader.GetString(6)
         };
 
-
-
-
         public void AggiungiProdotto(Prodotto prodotto)
         {
             try
             {
+                using var conn = GetConnection();
                 var cmd = GetCommand("INSERT INTO Prodotti (Nome, Descrizione, Prezzo, Categoria, DataInserimento, ImmagineLink) VALUES (@Nome, @Descrizione, @Prezzo, @Categoria, @DataInserimento, @ImmagineLink)");
                 cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
@@ -78,54 +75,58 @@ namespace E_commerce.Services
                 cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
                 cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
                 cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
-                using var conn = GetConnection();
+                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
-                cmd.Connection = conn;
                 cmd.ExecuteNonQuery();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("AggiuntaProdotto fallito");
+                throw new Exception("AggiuntaProdotto fallito", ex);
             }
         }
 
-    public void AggiornaProdotto(Prodotto prodotto)
-    {
-        try
+        public void AggiornaProdotto(Prodotto prodotto)
         {
-            var query = "UPDATE Prodotti SET Nome = @Nome, Descrizione = @Descrizione, Prezzo = @Prezzo, Categoria = @Categoria, DataInserimento = @DataInserimento, ImmagineLink = @ImmagineLink WHERE IDProdotto = @IDProdotto";
-            var cmd = GetCommand(query);
-            cmd.Parameters.Add(new SqlParameter("@IDProdotto", prodotto.IDProdotto));
-            cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
-            cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
-            cmd.Parameters.Add(new SqlParameter("@Prezzo", prodotto.Prezzo));
-            cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
-            cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
-            cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
-            using var conn = GetConnection();
-            conn.Open();
-            cmd.Connection = conn;
-            cmd.ExecuteNonQuery();
+            try
+            {
+                using var conn = GetConnection();
+                var query = "UPDATE Prodotti SET Nome = @Nome, Descrizione = @Descrizione, Prezzo = @Prezzo, Categoria = @Categoria, DataInserimento = @DataInserimento, ImmagineLink = @ImmagineLink WHERE IDProdotto = @IDProdotto";
+                var cmd = GetCommand(query);
+                cmd.Parameters.Add(new SqlParameter("@IDProdotto", prodotto.IDProdotto));
+                cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
+                cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
+                cmd.Parameters.Add(new SqlParameter("@Prezzo", prodotto.Prezzo));
+                cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
+                cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
+                cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
+                cmd.Connection = (SqlConnection)conn;
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("AggiornaProdotto fallito", ex);
+            }
         }
-        catch
-        {
-            throw new Exception("AggiornaProdotto fallito");
-        }
-    }
 
-    public void EliminaProdotto(int id)
+        public void EliminaProdotto(int id)
         {
-            var query = "DELETE FROM Prodotto WHERE IDProdotto = @IDProdotto";
-            var cmd = GetCommand(query);
-            cmd.Parameters.Add(new SqlParameter("@IDProdotto", id));
-            using var conn = GetConnection();
-            conn.Open();
-            int result = cmd.ExecuteNonQuery();
+            try
+            {
+                using var conn = GetConnection();
+                var query = "DELETE FROM Prodotti WHERE IDProdotto = @IDProdotto"; // Corretto il nome della tabella
+                var cmd = GetCommand(query);
+                cmd.Parameters.Add(new SqlParameter("@IDProdotto", id));
+                cmd.Connection = (SqlConnection)conn;
+                conn.Open();
+                int result = cmd.ExecuteNonQuery();
                 if (result != 1) throw new Exception("Comando fallito");
-            cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("EliminaProdotto fallito", ex);
+            }
         }
-
-
-
     }
 }
+

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Prodotto>
+﻿@model IEnumerable<E_commerce.Models.Prodotto>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -7,4 +7,21 @@
 <div class="text-center">
     <h1 class="display-4">memEShop</h1>
     <h2>Il tuo portale irriverente per i tuoi acquisti compulsivi!</h2>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var prodotto in Model)
+        {
+            <div class="col-md-4 my-4">
+                <div class="card mb-2 h-100">
+                    <img class="card-img-top" src="@prodotto.ImmagineLink" alt="@prodotto.Nome">
+                    <div class="card-body">
+                        <h5 class="card-title">@prodotto.Nome</h5>
+                        <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-primary">Dettagli</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
