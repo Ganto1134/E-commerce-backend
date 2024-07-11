@@ -1,22 +1,37 @@
 ﻿using E_commerce.Models;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace E_commerce.Services
 {
-    public class ProdottoService : SqlServiceBase, IProdottoService
+    public class ProdottoService : IProdottoService
     {
-        public ProdottoService(IConfiguration config) : base(config)
+        private readonly string _connectionString;
+
+        public ProdottoService(IConfiguration configuration)
         {
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public IEnumerable<Prodotto> GetProducts() //get da TUTTI i prodotti
+        private SqlConnection GetConnection()
+        {
+            return new SqlConnection(_connectionString);
+        }
+
+        private SqlCommand GetCommand(string commandText, SqlConnection connection)
+        {
+            return new SqlCommand(commandText, connection);
+        }
+
+        public IEnumerable<Prodotto> GetProducts()
         {
             try
             {
                 using var conn = GetConnection();
-                var cmd = GetCommand("SELECT * FROM Prodotti");
-                cmd.Connection = (SqlConnection)conn;
+                var cmd = GetCommand("SELECT * FROM Prodotti", conn);
                 conn.Open();
                 using var reader = cmd.ExecuteReader();
                 var prodotti = new List<Prodotto>();
@@ -32,14 +47,13 @@ namespace E_commerce.Services
             }
         }
 
-        public Prodotto GetProdotto(int id) //GET prodottosingolo.ID
+        public Prodotto GetProdotto(int id)
         {
             try
             {
                 using var conn = GetConnection();
-                var cmd = GetCommand("SELECT Id, Title, PublicationDate, Content FROM Articles WHERE Id = @id");
+                var cmd = GetCommand("SELECT * FROM Prodotti WHERE IDProdotto = @id", conn);
                 cmd.Parameters.Add(new SqlParameter("@id", id));
-                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
                 using var reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -68,14 +82,13 @@ namespace E_commerce.Services
             try
             {
                 using var conn = GetConnection();
-                var cmd = GetCommand("INSERT INTO Prodotti (Nome, Descrizione, Prezzo, Categoria, DataInserimento, ImmagineLink) VALUES (@Nome, @Descrizione, @Prezzo, @Categoria, @DataInserimento, @ImmagineLink)");
+                var cmd = GetCommand("INSERT INTO Prodotti (Nome, Descrizione, Prezzo, Categoria, DataInserimento, ImmagineLink) VALUES (@Nome, @Descrizione, @Prezzo, @Categoria, @DataInserimento, @ImmagineLink)", conn);
                 cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
                 cmd.Parameters.Add(new SqlParameter("@Prezzo", prodotto.Prezzo));
                 cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
                 cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
                 cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
-                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -91,7 +104,7 @@ namespace E_commerce.Services
             {
                 using var conn = GetConnection();
                 var query = "UPDATE Prodotti SET Nome = @Nome, Descrizione = @Descrizione, Prezzo = @Prezzo, Categoria = @Categoria, DataInserimento = @DataInserimento, ImmagineLink = @ImmagineLink WHERE IDProdotto = @IDProdotto";
-                var cmd = GetCommand(query);
+                var cmd = GetCommand(query, conn);
                 cmd.Parameters.Add(new SqlParameter("@IDProdotto", prodotto.IDProdotto));
                 cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
@@ -99,7 +112,6 @@ namespace E_commerce.Services
                 cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
                 cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
                 cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
-                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -114,10 +126,9 @@ namespace E_commerce.Services
             try
             {
                 using var conn = GetConnection();
-                var query = "DELETE FROM Prodotti WHERE IDProdotto = @IDProdotto"; // Corretto il nome della tabella
-                var cmd = GetCommand(query);
+                var query = "DELETE FROM Prodotti WHERE IDProdotto = @IDProdotto";
+                var cmd = GetCommand(query, conn);
                 cmd.Parameters.Add(new SqlParameter("@IDProdotto", id));
-                cmd.Connection = (SqlConnection)conn;
                 conn.Open();
                 int result = cmd.ExecuteNonQuery();
                 if (result != 1) throw new Exception("Comando fallito");
@@ -129,4 +140,3 @@ namespace E_commerce.Services
         }
     }
 }
-

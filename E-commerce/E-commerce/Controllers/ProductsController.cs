@@ -1,25 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using E_commerce.Models;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using E_commerce.Services;
+using System;
 
 namespace E_commerce.Controllers
 {
     public class ProductsController : Controller
     {
-        private static List<Prodotto> products = new List<Prodotto>
-        {
+        private readonly IProdottoService _prodottoService;
 
-        };
-
-        public IActionResult Prodotti()
+        public ProductsController(IProdottoService prodottoService)
         {
-            return View(products);
+            _prodottoService = prodottoService;
+        }
+
+        public IActionResult Index()
+        {
+            var prodotti = _prodottoService.GetProducts();
+            return View(prodotti);
         }
 
         public IActionResult Details(int id)
         {
-            var product = products.Find(p => p.IDProdotto == id);
+            var product = _prodottoService.GetProdotto(id);
             if (product == null)
             {
                 return NotFound();
@@ -27,6 +30,22 @@ namespace E_commerce.Controllers
             return View(product);
         }
 
-        // Aggiungi metodi per la gestione del carrello e dell'amministrazione
+        [HttpGet]
+        public IActionResult AggiungiProdotto()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AggiungiProdotto(Prodotto prodotto)
+        {
+            if (ModelState.IsValid)
+            {
+                prodotto.DataInserimento = DateTime.Now;
+                _prodottoService.AggiungiProdotto(prodotto);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(prodotto);
+        }
     }
 }
