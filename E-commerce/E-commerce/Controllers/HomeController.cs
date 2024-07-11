@@ -1,6 +1,7 @@
 using E_commerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using E_commerce.Services;
 
 namespace E_commerce.Controllers
 {
@@ -8,17 +9,23 @@ namespace E_commerce.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
+        private readonly IProdottoService _prodottoService;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config)
+        public HomeController(
+            ILogger<HomeController> logger,
+            IConfiguration config,
+            IProdottoService prodottoService
+            )
         {
             _logger = logger;
             _config = config;
+            _prodottoService = prodottoService;
         }
 
         public IActionResult Index()
         {
+            return View(_prodottoService.GetProducts());
 
-            return View();
         }
 
         public IActionResult Privacy()
