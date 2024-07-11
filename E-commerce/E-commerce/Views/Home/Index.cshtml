@@ -20,7 +20,9 @@
                         <h4 class="card-title mt-3">@prodotto.Nome</h4>
                         <div class="d-flex align-content-center justify-content-around mt-4">
                             <p class="fw-bold">@prodotto.Prezzo €</p>
-                            <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-dark">Dettagli</a>
+                            
+                                <a asp-action="Details" asp-route-id="@prodotto.IDProdotto" class="btn btn-outline-dark">Dettagli</a>
+                           
                         </div>
                         </div>
                 </div>

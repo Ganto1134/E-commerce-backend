@@ -1,0 +1,28 @@
+﻿@model Prodotto
+
+
+<h1>Dettaglio</h1>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>@Model.Nome</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Descrizione:</strong> @Model.Descrizione</p>
+            <p><strong>Prezzo:</strong> @Model.Prezzo €</p>
+            <p><strong>Categoria:</strong> @Model.Categoria</p>
+            <p><strong>Data Inserimento:</strong> @(Model.DataInserimento.HasValue ? Model.DataInserimento.Value.ToString("dd/MM/yyyy") : "N/A")</p>
+            <img src="@Model.ImmagineLink" alt="@Model.Nome" class="img-fluid" />
+        </div>
+        <div class="card-footer">
+            <form class="d-flex justify-content-between">
+                <select class="form-select w-25" aria-label="Seleziona la quantità">
+                    <option selected="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                <button type="submit" class="btn btn-secondary">Aggiungi al carrello</button>
+            </form>
+        </div>
+    </div>
+</div>

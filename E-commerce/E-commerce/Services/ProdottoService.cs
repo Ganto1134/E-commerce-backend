@@ -38,7 +38,7 @@ namespace E_commerce.Services
         {
             try
             {
-                var cmd = GetCommand("SELECT Id, Title, PublicationDate, Content FROM Articles WHERE Id = @id");
+                var cmd = GetCommand("SELECT *  FROM Prodotti WHERE IDProdotto = @id");
                 cmd.Parameters.Add(new SqlParameter("@id", id));
                 using var conn = GetConnection();
                 conn.Open();
