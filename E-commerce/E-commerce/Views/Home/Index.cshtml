@@ -8,3 +8,25 @@
     <h1 class="display-4">memEShop</h1>
     <h2>Il tuo portale irriverente per i tuoi acquisti compulsivi!</h2>
 </div>
+
+
+@if (Model.Any())
+{
+    <div class="row">
+        <table class=" offset-1 col-10 table table-borderless">
+            @foreach (var Prodotto in Model)
+            {
+                <tr>
+                    <td>@Prodotto.Nome</td>
+                    <td><a asp-action="Read" asp-route-id="@Prodotto.IDProdotto" class="btn btn-sm btn-info">Leggi</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div class="row mt-2">
+        <div class="col alert alert-warning">Nessun articolo in archivio</div>
+    </div>
+}
