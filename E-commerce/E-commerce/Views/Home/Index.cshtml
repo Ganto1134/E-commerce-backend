@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Prodotto>
+﻿@model IEnumerable<E_commerce.Models.Prodotto>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,24 +9,22 @@
     <h2>Il tuo portale irriverente per i tuoi acquisti compulsivi!</h2>
 </div>
 
-
-@if (Model.Any())
-{
+<div class="container mt-4">
     <div class="row">
-        <table class=" offset-1 col-10 table table-borderless">
-            @foreach (var Prodotto in Model)
-            {
-                <tr>
-                    <td>@Prodotto.Nome</td>
-                    <td><a asp-action="Read" asp-route-id="@Prodotto.IDProdotto" class="btn btn-sm btn-info">Leggi</a></td>
-                </tr>
-            }
-        </table>
+        @foreach (var prodotto in Model)
+        {
+            <div class="col-md-4 my-4">
+                <div class="card mb-2 h-100 rounded-5 shadow-lg border-0">
+                    <img class="card-img-top" src="@prodotto.ImmagineLink" alt="@prodotto.Nome">
+                    <div class="card-body d-flex flex-column justify-content-around">
+                        <h4 class="card-title mt-3">@prodotto.Nome</h4>
+                        <div class="d-flex align-content-center justify-content-around mt-4">
+                            <p class="fw-bold">@prodotto.Prezzo €</p>
+                            <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-dark">Dettagli</a>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        }
     </div>
-}
-else
-{
-    <div class="row mt-2">
-        <div class="col alert alert-warning">Nessun articolo in archivio</div>
-    </div>
-}
+</div>

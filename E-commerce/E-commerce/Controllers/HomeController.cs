@@ -33,6 +33,11 @@ namespace E_commerce.Controllers
             return View();
         }
 
+        public IActionResult Admin()
+        {
+            return View(_prodottoService.GetProducts());
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
