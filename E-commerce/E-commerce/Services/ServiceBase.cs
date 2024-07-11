@@ -11,5 +11,4 @@ namespace E_commerce.Services
         protected abstract DbConnection GetConnection();
         protected abstract DbCommand GetCommand(string commandText);
     }
-    }
-
+}

@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProdottoService, ProdottoService>();
+builder.Services.AddScoped<CarrelloService>();
+;
 
 
 var app = builder.Build();

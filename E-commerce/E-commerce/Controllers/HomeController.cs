@@ -10,27 +10,51 @@ namespace E_commerce.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
         private readonly IProdottoService _prodottoService;
+        private readonly CarrelloService _carrelloService;
+
 
         public HomeController(
             ILogger<HomeController> logger,
             IConfiguration config,
-            IProdottoService prodottoService
+            IProdottoService prodottoService,
+            CarrelloService carrelloService
             )
         {
             _logger = logger;
             _config = config;
             _prodottoService = prodottoService;
+            _carrelloService = carrelloService;
+
         }
 
         public IActionResult Index()
         {
             return View(_prodottoService.GetProducts());
-
         }
 
-        public IActionResult Privacy()
+        //carrello 
+        public IActionResult Cart()
         {
-            return View();
+            var cartItems = _carrelloService.OttieniProdottiNelCarrello();
+            return View(cartItems);
+        }
+
+        public IActionResult AddToCart(int id)
+        {
+            _carrelloService.AggiungiProdottoAlCarrello(id);
+            return RedirectToAction("Cart");
+        }
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            _carrelloService.RimuoviProdottoDalCarrello(id);
+            return RedirectToAction("Cart");
+        }
+
+        // Dettagli prodotto
+        public IActionResult Dettagli(int id)
+        {
+            return View(_prodottoService.GetProdotto(id));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

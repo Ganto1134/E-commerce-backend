@@ -1,0 +1,44 @@
+﻿@page "/carrello"
+
+@model List<E_commerce.Models.Prodotto>
+
+@{
+    ViewData["Title"] = "Carrello";
+}
+
+<div class="container mt-4">
+    <h1>Il tuo carrello</h1>
+    @if (Model.Count == 0)
+    {
+        <p>Il tuo carrello è vuoto.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Prezzo</th>
+                    <th>Quantità</th>
+                    <th>Totale</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Prezzo €</td>
+                        <td>1</td> <!-- Puoi aggiungere la logica per la quantità -->
+                        <td>@item.Prezzo €</td>
+                        <td>
+                            <a href="@Url.Action("RemoveFromCart", "Home", new { id = item.IDProdotto })" class="btn btn-danger">Rimuovi</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="@Url.Action("Checkout", "Home")" class="btn btn-primary">Procedi al Checkout</a>
+    }
+</div>

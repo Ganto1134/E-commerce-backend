@@ -1,8 +1,10 @@
-﻿@model IEnumerable<Prodotto>
+﻿@model IEnumerable<E_commerce.Models.Prodotto>
 
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 <div class="text-center">
     <h1 class="display-4">memEShop</h1>
@@ -10,23 +12,21 @@
 </div>
 
 
-@if (Model.Any())
-{
+
+<div class="container mt-4">
     <div class="row">
-        <table class=" offset-1 col-10 table table-borderless">
-            @foreach (var Prodotto in Model)
-            {
-                <tr>
-                    <td>@Prodotto.Nome</td>
-                    <td><a asp-action="Read" asp-route-id="@Prodotto.IDProdotto" class="btn btn-sm btn-info">Leggi</a></td>
-                </tr>
-            }
-        </table>
+        @foreach (var prodotto in Model)
+        {
+            <div class="col-md-4 my-4">
+                <div class="card mb-2 h-100">
+                    <img class="card-img-top" src="@prodotto.ImmagineLink" alt="@prodotto.Nome">
+                    <div class="card-body justify-content-around">
+                        <h5 class="card-title">@prodotto.Nome</h5>
+                        <a href="@Url.Action("Dettagli", "Home", new { id = prodotto.IDProdotto })" class="btn btn-primary">Dettagli</a>
+                        <a href="@Url.Action("AddToCart", "Home", new { id = prodotto.IDProdotto })" class="btn btn-success">Aggiungi al Carrello</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-}
-else
-{
-    <div class="row mt-2">
-        <div class="col alert alert-warning">Nessun articolo in archivio</div>
-    </div>
-}
+</div>

@@ -27,6 +27,8 @@ namespace E_commerce.Controllers
             return View(product);
         }
 
+
+
         // Aggiungi metodi per la gestione del carrello e dell'amministrazione
     }
 }
