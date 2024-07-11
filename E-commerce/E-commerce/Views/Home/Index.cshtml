@@ -14,20 +14,18 @@
     <div class="row">
         @foreach (var prodotto in Model)
         {
-            <div class="col-md-4">
-                <div class="card mb-4 h-100">
+            <div class="col-md-4 my-4">
+                <div class="card mb-2 h-100 rounded-5 shadow-lg border-0">
                     <img class="card-img-top" src="@prodotto.ImmagineLink" alt="@prodotto.Nome">
-                    <div class="card-body">
-                        <h5 class="card-title">@prodotto.Nome <i class="bi bi-bag-fill"></i></h5>
-                        <p class="card-text">@prodotto.Descrizione</p>
-                        <a href="@Url.Action("Details", "Products", new { id = prodotto.IDProdotto })" class="btn btn-primary">
-                            Dettagli <i class="bi bi-info-circle-fill"></i>
-                        </a>
-                        <form asp-controller="Products" asp-action="EliminaProdotto" method="post" class="d-inline" onsubmit="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
-                            <input type="hidden" name="id" value="@prodotto.IDProdotto" />
-                            <button type="submit" class="btn btn-danger">Elimina <i class="bi bi-trash-fill"></i></button>
-                        </form>
-                    </div>
+                    <div class="card-body d-flex flex-column justify-content-around">
+                        <h4 class="card-title mt-3">@prodotto.Nome</h4>
+                        <div class="d-flex align-content-center justify-content-around mt-4">
+                            <p class="fw-bold">@prodotto.Prezzo €</p>
+                            
+                                <a asp-action="Details" asp-route-id="@prodotto.IDProdotto" class="btn btn-outline-dark">Dettagli</a>
+                           
+                        </div>
+                        </div>
                 </div>
             </div>
         }

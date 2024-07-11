@@ -28,9 +28,19 @@ namespace E_commerce.Controllers
 
         }
 
+        public IActionResult Details(int id)
+        {
+            return View(_prodottoService.GetProdotto(id));
+        }
+
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Admin()
+        {
+            return View(_prodottoService.GetProducts());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

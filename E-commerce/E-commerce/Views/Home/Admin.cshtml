@@ -1,0 +1,30 @@
+﻿@model IEnumerable<E_commerce.Models.Prodotto>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+    
+
+<div class="container mt-4">
+
+    <h1 class="display-4 text-center my-3">memEShop-ADMIN PAGE</h1>
+    <a class="btn btn-outline-success fs-5 mt-3" asp-controller="Products" asp-action="AggiungiProdotto">Aggiungi nuovo prodotto allo shop</a>
+
+    <div class="row mt-3 border border-2 p-3 rounded">
+        <h4 class="text-center">Elenco prodotti in vendita</h4>
+        @foreach (var prodotto in Model)
+        {
+            <div class="col-6 my-3">
+                <p class="m-0 fs-5">@prodotto.Nome</p>
+                
+            </div>
+            <div class="col-6 d-flex justify-content-around mt-0">
+                    <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-warning my-auto">Modifica</a>
+                    <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-danger my-auto">Elimina</a>
+                </div>
+
+        }
+
+
+    </div>
+</div>
