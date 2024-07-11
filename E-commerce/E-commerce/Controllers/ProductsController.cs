@@ -43,7 +43,7 @@ namespace E_commerce.Controllers
             {
                 prodotto.DataInserimento = DateTime.Now;
                 _prodottoService.AggiungiProdotto(prodotto);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(prodotto);
         }
