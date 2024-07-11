@@ -20,7 +20,10 @@
             </div>
             <div class="col-6 d-flex justify-content-around mt-0">
                     <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-warning my-auto">Modifica</a>
-                    <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-outline-danger my-auto">Elimina</a>
+                <form asp-controller="Products" asp-action="EliminaProdotto" method="post" class="d-inline" onsubmit="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
+                    <input type="hidden" name="id" value="@prodotto.IDProdotto" />
+                    <button type="submit" class="btn btn-danger">Elimina <i class="bi bi-trash-fill"></i></button>
+                </form>
                 </div>
 
         }

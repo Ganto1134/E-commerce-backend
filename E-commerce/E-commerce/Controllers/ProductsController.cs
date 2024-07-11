@@ -54,7 +54,7 @@ namespace E_commerce.Controllers
             try
             {
                 _prodottoService.EliminaProdotto(id);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Admin", "Home");
             }
             catch (Exception ex)
             {
