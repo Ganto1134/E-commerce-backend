@@ -43,9 +43,24 @@ namespace E_commerce.Controllers
             {
                 prodotto.DataInserimento = DateTime.Now;
                 _prodottoService.AggiungiProdotto(prodotto);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             return View(prodotto);
+        }
+
+        [HttpPost]
+        public IActionResult EliminaProdotto(int id)
+        {
+            try
+            {
+                _prodottoService.EliminaProdotto(id);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Gestione degli errori, mostrare un messaggio di errore
+                return View("Error", new { message = ex.Message });
+            }
         }
     }
 }

@@ -1,24 +1,32 @@
 ﻿@model IEnumerable<E_commerce.Models.Prodotto>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Lista Prodotti";
 }
 
 <div class="text-center">
     <h1 class="display-4">memEShop</h1>
     <h2>Il tuo portale irriverente per i tuoi acquisti compulsivi!</h2>
+    <a href="@Url.Action("AggiungiProdotto", "Products")" class="btn btn-primary mt-3">Aggiungi Nuovo Prodotto</a>
 </div>
 
 <div class="container mt-4">
     <div class="row">
         @foreach (var prodotto in Model)
         {
-            <div class="col-md-4 my-4">
-                <div class="card mb-2 h-100">
+            <div class="col-md-4">
+                <div class="card mb-4 h-100">
                     <img class="card-img-top" src="@prodotto.ImmagineLink" alt="@prodotto.Nome">
                     <div class="card-body">
-                        <h5 class="card-title">@prodotto.Nome</h5>
-                        <a href="@Url.Action("Details", "Prodotto", new { id = prodotto.IDProdotto })" class="btn btn-primary">Dettagli</a>
+                        <h5 class="card-title">@prodotto.Nome <i class="bi bi-bag-fill"></i></h5>
+                        <p class="card-text">@prodotto.Descrizione</p>
+                        <a href="@Url.Action("Details", "Products", new { id = prodotto.IDProdotto })" class="btn btn-primary">
+                            Dettagli <i class="bi bi-info-circle-fill"></i>
+                        </a>
+                        <form asp-controller="Products" asp-action="EliminaProdotto" method="post" class="d-inline" onsubmit="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
+                            <input type="hidden" name="id" value="@prodotto.IDProdotto" />
+                            <button type="submit" class="btn btn-danger">Elimina <i class="bi bi-trash-fill"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
