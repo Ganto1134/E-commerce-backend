@@ -13,8 +13,6 @@ namespace E_commerce.Services
         public ProdottoService(IConfiguration config): base (config) {
             
         }
-
-
         public IEnumerable<Prodotto> GetProducts() //get da TUTTI i prodotti
         {
             try

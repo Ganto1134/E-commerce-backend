@@ -12,7 +12,7 @@ namespace E_commerce.Controllers
 
         };
 
-        public IActionResult Index()
+        public IActionResult Prodotti()
         {
             return View(products);
         }
