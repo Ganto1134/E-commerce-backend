@@ -1,25 +1,27 @@
-﻿using E_commerce.Services;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace E_commerce.Services
 {
     public class SqlServiceBase : ServiceBase
     {
-        private SqlConnection _connection;
+        private readonly IConfiguration _config;
 
         public SqlServiceBase(IConfiguration config)
         {
-            _connection = new SqlConnection(config.GetConnectionString("AppConn"));
+            _config = config;
         }
+
         protected override DbCommand GetCommand(string commandText)
         {
-            return new SqlCommand(commandText, (SqlConnection)_connection);
+            var command = new SqlCommand(commandText);
+            command.Connection = (SqlConnection)GetConnection();
+            return command;
         }
 
         protected override DbConnection GetConnection()
         {
-            return _connection;
+            return new SqlConnection(_config.GetConnectionString("AppConn"));
         }
     }
 }
