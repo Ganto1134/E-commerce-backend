@@ -8,6 +8,9 @@ builder.Services.AddControllersWithViews();
 // Registra il servizio IProdottoService
 builder.Services.AddSingleton<IProdottoService, ProdottoService>();
 
+//Registra CartService
+builder.Services.AddTransient<CartService>(provider => new CartService(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

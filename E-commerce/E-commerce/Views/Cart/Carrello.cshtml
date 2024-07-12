@@ -1,0 +1,35 @@
+﻿@model IEnumerable<E_commerce.Models.Cart>
+
+@{
+    ViewData["Title"] = "Carrello";
+}
+<div class="container">
+    <h2>Carrello</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome Prodotto</th>
+                <th>Quantità</th>
+                <th>Prezzo</th>
+                <th>Totale</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.NomeFK</td>
+                    <td>@item.Quantita</td>
+                    <td>@item.PrezzoFK</td>
+                    <td>@item.Total</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Totale Complessivo</strong></td>
+                <td><strong>TOTALE</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

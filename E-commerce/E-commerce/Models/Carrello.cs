@@ -1,9 +1,15 @@
 ﻿namespace E_commerce.Models
 {
-    public class Carrello
+    public class Cart
     {
-        public int IDCarrello { get; set; }
-        public int IDUtente { get; set; }
-        public DateTime? DataCreazione { get; set; }
+        public int IDCart { get; set; }
+        public int IDProdottoFK { get; set; }
+        public int Quantita { get; set; }
+
+        public string NomeFK { get; set; }
+
+        public decimal PrezzoFK { get; set; }
+
+        public decimal Total => Quantita * PrezzoFK;
     }
 }
