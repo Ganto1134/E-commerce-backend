@@ -45,11 +45,6 @@ namespace E_commerce.Controllers
             return RedirectToAction("Cart");
         }
 
-        public IActionResult Details(int id)
-        {
-            return View(_prodottoService.GetProdotto(id));
-        }
-
         public IActionResult RemoveFromCart(int id)
         {
             _carrelloService.RimuoviProdottoDalCarrello(id);
@@ -57,9 +52,10 @@ namespace E_commerce.Controllers
         }
 
         // Dettagli prodotto
-        public IActionResult Dettagli(int id)
+        public IActionResult Details(int id)
         {
-            return View(_prodottoService.GetProdotto(id));
+            var p = _prodottoService.GetProdotto(id);
+            return View(p);
         }
 
         public IActionResult Admin()
