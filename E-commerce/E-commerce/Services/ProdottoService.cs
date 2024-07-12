@@ -13,13 +13,21 @@ namespace E_commerce.Services
 
         public ProdottoService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("AppConn");
         }
 
         private SqlConnection GetConnection()
         {
-            return new SqlConnection(_connectionString);
-        }
+            try
+            {
+                return new SqlConnection(_connectionString);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetConnection fallito", ex);
+            }
+        }   
 
         private SqlCommand GetCommand(string commandText, SqlConnection connection)
         {

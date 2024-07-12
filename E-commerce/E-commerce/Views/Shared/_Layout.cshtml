@@ -19,15 +19,20 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Admin">Administrator</a>
-                        </li>
-                    </ul>
+                <div class="navbar-collapse collapse d-sm-inline-flex d-flex">
+                    <div
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Admin">Administrator</a>
+                            </li>
+                        </ul>
+                    </div
+                    <span style="d-flex justify-content-center align-items-center">
+                        <i class="bi bi-cart"></i><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cart">Carrello</a>
+                    </span>
                 </div>
             </div>
         </nav>

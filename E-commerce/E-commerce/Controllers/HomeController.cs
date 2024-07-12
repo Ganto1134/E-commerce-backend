@@ -50,7 +50,6 @@ namespace E_commerce.Controllers
             return View(_prodottoService.GetProdotto(id));
         }
 
-        public IActionResult Privacy()
         public IActionResult RemoveFromCart(int id)
         {
             _carrelloService.RimuoviProdottoDalCarrello(id);
