@@ -2,16 +2,19 @@ using E_commerce.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IProdottoService, ProdottoService>();
 builder.Services.AddScoped<CarrelloService>();
 ;
 
+// Registra il servizio IProdottoService
+builder.Services.AddSingleton<IProdottoService, ProdottoService>();
 
 var app = builder.Build();
 
-
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
