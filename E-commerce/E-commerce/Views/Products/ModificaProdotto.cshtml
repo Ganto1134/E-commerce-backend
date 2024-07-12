@@ -1,13 +1,14 @@
 ﻿@model E_commerce.Models.Prodotto
 
 @{
-    ViewData["Title"] = "Aggiungi Prodotto";
+    ViewData["Title"] = "Modifica Prodotto";
 }
-
-<h2>Aggiungi Prodotto</h2>
+<h1>MODIFICA @Model.Nome</h1>
 
 <div class="container mt-4">
-    <form asp-action="AggiungiProdotto" method="post">
+    <form asp-action="AggiornaProdotto" method="post">
+        <input type="hidden" asp-for="IDProdotto" />
+        
         <div class="form-group">
             <label asp-for="Nome" class="control-label"></label>
             <input asp-for="Nome" class="form-control" />
@@ -33,7 +34,7 @@
             <input asp-for="ImmagineLink" class="form-control" />
             <span asp-validation-for="ImmagineLink" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Aggiungi</button>
+        <button type="submit" class="btn btn-warning mt-3">Modifica</button>
     </form>
 </div>
 
@@ -42,4 +43,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

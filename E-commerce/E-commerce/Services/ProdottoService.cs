@@ -105,14 +105,13 @@ namespace E_commerce.Services
             try
             {
                 using var conn = GetConnection();
-                var query = "UPDATE Prodotti SET Nome = @Nome, Descrizione = @Descrizione, Prezzo = @Prezzo, Categoria = @Categoria, DataInserimento = @DataInserimento, ImmagineLink = @ImmagineLink WHERE IDProdotto = @IDProdotto";
+                var query = "UPDATE Prodotti SET Nome = @Nome, Descrizione = @Descrizione, Prezzo = @Prezzo, Categoria = @Categoria, ImmagineLink = @ImmagineLink WHERE IDProdotto = @IDProdotto";
                 var cmd = GetCommand(query, conn);
                 cmd.Parameters.Add(new SqlParameter("@IDProdotto", prodotto.IDProdotto));
                 cmd.Parameters.Add(new SqlParameter("@Nome", prodotto.Nome));
                 cmd.Parameters.Add(new SqlParameter("@Descrizione", prodotto.Descrizione));
                 cmd.Parameters.Add(new SqlParameter("@Prezzo", prodotto.Prezzo));
                 cmd.Parameters.Add(new SqlParameter("@Categoria", prodotto.Categoria));
-                cmd.Parameters.Add(new SqlParameter("@DataInserimento", prodotto.DataInserimento));
                 cmd.Parameters.Add(new SqlParameter("@ImmagineLink", prodotto.ImmagineLink));
                 conn.Open();
                 cmd.ExecuteNonQuery();

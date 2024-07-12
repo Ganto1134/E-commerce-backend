@@ -62,5 +62,26 @@ namespace E_commerce.Controllers
                 return View("Error", new { message = ex.Message });
             }
         }
+
+        public IActionResult ModificaProdotto(int id)
+        {
+            var prodotto = _prodottoService.GetProdotto(id);
+            if (prodotto == null)
+            {
+                return NotFound();
+            }
+            return View(prodotto);
+        }
+
+        [HttpPost]
+        public IActionResult AggiornaProdotto(Prodotto prodotto)
+        {
+            if (ModelState.IsValid)
+            {
+                _prodottoService.AggiornaProdotto(prodotto);
+                return RedirectToAction("Admin", "Home");
+            }
+            return View(prodotto);
+        }
     }
 }
